@@ -1,0 +1,62 @@
+@model PaginatedList<DOTNET_MVC_DUC_SHOP1b.Models.Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1> PRODUCTS </h1>
+@if (User.IsInRole("Admin"))
+{
+  <p>
+      <a asp-action="Create" class="btn btn-primary my-2">Create New</a>
+  </p>
+}
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-primary my-2" /> 
+            <a asp-action="Index" class="btn btn-primary my-2">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<div class="d-flex flex-wrap justify-content-center bg-light">
+       @foreach (var item in Model){
+          <div class="card m-2 p-2 border" >
+            <a class="mx-auto" asp-action="Details" asp-route-id="@item.ID">
+                <img class="card-img-top mx-auto"
+                style="width:200px; height:250px "
+                decoding="async" src="~/image/@item.ImageName" asp-append-version="true" alt="">
+            </a>
+            <div class="card-body">
+              <h4 class="card-title">  @Html.DisplayFor(modelItem => item.Name)</h4>
+              <p class="card-text"> ID: @Html.DisplayFor(modelItem => item.ID) </p>
+              <p class="card-text">Price: $ @Html.DisplayFor(modelItem => item.Price) </p>
+              <a  asp-action="Details" asp-route-id="@item.ID" class="btn btn-outline-success my-2"> Details </a>
+            </div>
+        </div>
+       }
+            
+    </div>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+  
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
+</div>
+
+

@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:DOTNET_MVC_DUC_SHOP1bContextConnection"
+    }
+  }
+}
